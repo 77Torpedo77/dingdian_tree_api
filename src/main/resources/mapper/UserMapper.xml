@@ -7,6 +7,24 @@
         insert into user (openid,family_id,tree_id,exp) values (#{openid},#{familyId},#{treeId},#{exp});
     </insert>
 
+    <select id="getUserInfo" resultType="com.dingdian.family.tree.pojo.po.User" parameterType="java.lang.String">
+        select
+            family_id,
+            tree_id,
+            exp
+        from user where openid =  #{openid};
+    </select>
+
+    <insert id="savePaper">
+        insert into paper (authorOpenid,family_id,tree_id,content) values (#{authorOpenid},#{familyId},#{treeId},#{content});
+    </insert>
+
+    <select id="getPaper" resultType="com.dingdian.family.tree.pojo.po.Paper" parameterType="java.lang.String">
+        select
+            content
+        from user where tree_id =  #{tree_id};
+    </select>
+
     <!--    <update id="saveMaxReply">-->
     <!--        update summary.dis_forum_mycount set subject_replies = #{subject}, replies = #{replies} where authorid = #{authorid}-->
     <!--    </update>-->
