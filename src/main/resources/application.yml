@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: family_tree
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/family_tree?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 352921
+
+mybatis:
+  type-aliases-package: com/dingdian/family/tree/pojo/po
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    callSettersOnNulls: true

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dingdian.family.tree.dao.UserMapper">
+    <insert id="saveNewUser">
+        insert into user (openid,family_id,tree_id,exp) values (#{openid},#{familyId},#{treeId},#{exp});
+    </insert>
+
+    <!--    <update id="saveMaxReply">-->
+    <!--        update summary.dis_forum_mycount set subject_replies = #{subject}, replies = #{replies} where authorid = #{authorid}-->
+    <!--    </update>-->
+
+<!--    <select id="selAuthorPostPid" resultType="com.star.bbs.summary.pojo.po.Author" parameterType="java.lang.Integer">-->
+<!--        select-->
+<!--            authorid,-->
+<!--            any_value(author) as author,-->
+<!--            group_concat(pid) as pidset-->
+<!--        from dis_forum_post GROUP BY authorid;-->
+<!--    </select>-->
+</mapper>
