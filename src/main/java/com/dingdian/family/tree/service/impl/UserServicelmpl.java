@@ -6,9 +6,11 @@ import com.dingdian.family.tree.pojo.vo.ReturnData;
 import com.dingdian.family.tree.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service("UserService")
 public class UserServicelmpl implements UserService {
 
@@ -18,7 +20,7 @@ public class UserServicelmpl implements UserService {
     @Override
     public ReturnData saveNewUser(String cre_family_tree,String family_id,String tree_id,String openid,String nickname,String iconUrl)
     {
-        if (openid == null  || nickname == null || iconUrl == null)
+        if (cre_family_tree==null || family_id == null  ||tree_id == null  ||openid == null  || nickname == null || iconUrl == null)
         {
             return ReturnData.fail(40000,"某一参数为空");
         }
@@ -32,27 +34,27 @@ public class UserServicelmpl implements UserService {
         user.setFamilyId(family_id);
         user.setTreeId(tree_id);
 
-        if (cre_family_tree=="0")
+        if (cre_family_tree.equals("0"))
         {
             if (family == null)
             {
-                return ReturnData.fail(41000,"没有此家庭");
+                return ReturnData.fail(40401,"没有此家庭");
             }
             if (tree == null)
             {
-                return ReturnData.fail(41001,"没有此家族树");
+                return ReturnData.fail(40402,"没有此家族树");
             }
             UserMapper.saveNewUser(user);
         }
-        if (cre_family_tree=="1")
+        if (cre_family_tree.equals("1"))
         {
             if (family != null)
             {
-                return ReturnData.fail(42002,"此家庭号已存在");
+                return ReturnData.fail(60601,"此家庭号已存在");
             }
             if (tree == null)
             {
-                return ReturnData.fail(41001,"没有此家族树");
+                return ReturnData.fail(40402,"没有此家族树");
             }
             UserMapper.saveNewUser(user);
 
@@ -63,15 +65,15 @@ public class UserServicelmpl implements UserService {
             new_family.setTreeId(tree_id);
             UserMapper.saveNewFamily(new_family);
         }
-        if (cre_family_tree=="2")
+        if (cre_family_tree.equals("2"))
         {
             if (family != null)
             {
-                return ReturnData.fail(42002,"此家庭号已存在");
+                return ReturnData.fail(60601,"此家庭号已存在");
             }
             if (tree != null)
             {
-                return ReturnData.fail(41003,"此家族树号已存在");
+                return ReturnData.fail(60602,"此家族树号已存在");
             }
             UserMapper.saveNewUser(user);
 
@@ -97,15 +99,14 @@ public class UserServicelmpl implements UserService {
         {
             return ReturnData.fail(40000,"某一参数为空");
         }
-        User user = new User();
-        user = UserMapper.getUserInfo(openid);
+        User user = UserMapper.getUserInfo(openid);
         if (user.getFamilyId() != null)
         {
             return ReturnData.success(user);
         }
         else
         {
-            return  ReturnData.fail(40001,"无此用户");
+            return  ReturnData.fail(40400,"无此用户");
         }
     }
 
@@ -139,20 +140,20 @@ public class UserServicelmpl implements UserService {
         }
         else
         {
-            return  ReturnData.fail(40002,"此用户无文章");
+            return  ReturnData.fail(40403,"此用户无文章");
         }
     }
 
 
-    public ReturnData saveComment(String authorOpenid,String paperId,String content)
+    public ReturnData saveComment(String author_openid,String paper_id,String content)
     {
-        if (authorOpenid == null || paperId == null || content == null)
+        if (author_openid == null || paper_id == null || content == null)
         {
             return ReturnData.fail(40000,"某一参数为空");
         }
         Comment comment = new Comment();
-        comment.setAuthorOpenid(authorOpenid);
-        comment.setPaperId(paperId);
+        comment.setAuthorOpenid(author_openid);
+        comment.setPaperId(paper_id);
         comment.setContent(content);
         UserMapper.saveComment(comment);
         return ReturnData.success("保存成功");
@@ -173,11 +174,11 @@ public class UserServicelmpl implements UserService {
         }
         else
         {
-            return  ReturnData.fail(40002,"此文章无评论");
+            return  ReturnData.fail(40404,"此文章无评论");
         }
     }
 
-    public ReturnData upDateAllExp(Integer add_exp,String openid)
+    public ReturnData updateAllExp(Integer add_exp, String openid)
     {
         User user = UserMapper.getUserInfo(openid);
         String family_id = user.getFamilyId();
@@ -186,14 +187,19 @@ public class UserServicelmpl implements UserService {
         Family family= UserMapper.getFamily(family_id);
         Tree tree = UserMapper.getTree(tree_id);
 
-        Integer old_exp = family.getFamilyExp();
+        Integer old_exp = user.getExp();
         Integer new_exp = old_exp+add_exp;
+        user.setExp(new_exp);
+
+        old_exp = family.getFamilyExp();
+        new_exp = old_exp+add_exp;
         family.setFamilyExp(new_exp);
 
         old_exp = tree.getTreeExp();
         new_exp = old_exp+add_exp;
         tree.setTreeExp(new_exp);
 
+        UserMapper.updateUser(user);
         UserMapper.updateFamily(family);
         UserMapper.updateTree(tree);
 

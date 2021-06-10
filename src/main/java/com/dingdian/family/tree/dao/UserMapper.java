@@ -19,6 +19,7 @@ public interface UserMapper {
     List<Comment> getComment(String paper_id);
     Family getFamily(String family_id);
     Tree getTree(String tree_id);
+    void updateUser(User user);
     void updateFamily(Family family);
     void updateTree(Tree tree);
 }

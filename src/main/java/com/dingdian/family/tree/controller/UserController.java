@@ -26,6 +26,48 @@ public class UserController {
     @PostMapping("/saveNewUser")
     public ReturnData saveNewUser(String cre_family_tree,String family_id,String tree_id,String openid,String nickname,String iconUrl)
     {
-        return UserService.saveNewUser(cre_family_tree,family_id,tree_id,openid,nickname, iconUrl);
+        return UserService.saveNewUser(cre_family_tree,family_id,tree_id,openid,nickname,iconUrl);
+    }
+
+    @ResponseBody
+    @PostMapping("/getUserInfo")
+    public ReturnData getUserInfo(String openid)
+    {
+        return UserService.getUserInfo(openid);
+    }
+
+    @ResponseBody
+    @PostMapping("/savePaper")
+    public ReturnData savePaper(String openid, String family_id, String tree_id, String content)
+    {
+        return UserService.savePaper(openid,family_id,tree_id,content);
+    }
+
+    @ResponseBody
+    @PostMapping("/getPaper")
+    public ReturnData getPaper(String tree_id)
+    {
+        return UserService.getPaper(tree_id);
+    }
+
+    @ResponseBody
+    @PostMapping("/saveComment")
+    public ReturnData saveComment(String author_openid,String paper_id,String content)
+    {
+        return UserService.saveComment(author_openid,paper_id,content);
+    }
+
+    @ResponseBody
+    @PostMapping("/getComment")
+    public ReturnData getComment(String paper_id)
+    {
+        return UserService.getComment(paper_id);
+    }
+
+    @ResponseBody
+    @PostMapping("/updateAllExp")
+    public ReturnData updateAllExp(Integer add_exp, String openid)
+    {
+        return UserService.updateAllExp(add_exp,openid);
     }
 }

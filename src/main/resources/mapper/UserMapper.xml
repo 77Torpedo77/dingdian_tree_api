@@ -15,7 +15,7 @@
     </insert>
 
     <insert id="saveNewTree">
-        insert into family
+        insert into tree
             (tree_id,tree_exp,tree_member)
         values
             (#{treeId},#{treeExp},#{treeMember});
@@ -23,32 +23,39 @@
 
     <select id="getUserInfo" resultType="com.dingdian.family.tree.pojo.po.User" parameterType="java.lang.String">
         select
+            openid,
             family_id,
             tree_id,
-            exp
+            exp,
+            nickname,
+            icon_url
         from user where openid =  #{openid};
     </select>
 
     <insert id="savePaper">
-        insert into paper (authorOpenid,family_id,tree_id,content) values (#{authorOpenid},#{familyId},#{treeId},#{content});
+        insert into paper (author_openid,family_id,tree_id,content) values (#{authorOpenid},#{familyId},#{treeId},#{content});
     </insert>
 
     <select id="getPaper" resultType="com.dingdian.family.tree.pojo.po.Paper" parameterType="java.lang.String">
         select
-            content
-            id as paperId
-            family_id
-        from user where tree_id =  #{tree_id};
+            author_openid,
+            content,
+            paper_id,
+            family_id,
+            tree_id
+        from paper where tree_id =  #{treeId};
     </select>
 
     <insert id="saveComment">
-        insert into comment (authorOpenid,paper_id,content) values (#{authorOpenid},#{paperId},#{content});
+        insert into comment (author_openid,paper_id,content) values (#{authorOpenid},#{paperId},#{content});
     </insert>
 
     <select id="getComment" resultType="com.dingdian.family.tree.pojo.po.Comment" parameterType="java.lang.String">
         select
-            content
-        from user where tree_id =  #{tree_id};
+               author_openid,
+               paper_id,
+               content
+        from comment where paper_id =  #{paperId};
     </select>
 
     <select id="getFamily" resultType="com.dingdian.family.tree.pojo.po.Family" parameterType="java.lang.String">
@@ -63,16 +70,22 @@
         from tree where tree_id =  #{tree_id};
     </select>
 
+    <update id="updateUser">
+        update user set
+            exp = #{exp}
+        where openid = #{openid}
+    </update>
+
     <update id="updateFamily">
         update family set
-            family_exp = #{family_exp}
-        where family_id = #{family_id}
+            family_exp = #{familyExp}
+        where family_id = #{familyId}
     </update>
 
     <update id="updateTree">
         update tree set
-            tree_exp = #{tree_exp}
-        where tree_id = #{tree_id}
+            tree_exp = #{treeExp}
+        where tree_id = #{treeId}
     </update>
 
 
