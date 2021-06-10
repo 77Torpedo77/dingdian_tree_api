@@ -14,4 +14,6 @@ public class User {
     private String familyId;
     private String treeId;
     private Integer exp;
+    private String nickname;
+    private String iconUrl;
 }

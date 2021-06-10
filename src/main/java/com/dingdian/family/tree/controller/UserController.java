@@ -24,8 +24,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/saveNewUser")
-    public ReturnData saveNewUser(String openid,String family_id,String tree_id,Integer exp)
+    public ReturnData saveNewUser(String cre_family_tree,String family_id,String tree_id,String openid,String nickname,String iconUrl)
     {
-        return UserService.saveNewUser(openid,family_id,tree_id,exp);
+        return UserService.saveNewUser(cre_family_tree,family_id,tree_id,openid,nickname, iconUrl);
     }
 }

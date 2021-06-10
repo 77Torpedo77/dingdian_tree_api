@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paper {
+public class Comment {
     private String authorOpenid;
-    private String treeId;
-    private String familyId;
+    private String paperId;
     private String content;
-    private String paperId;//存的时候不传，数据库自增，取的时候才取
 }

@@ -4,7 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dingdian.family.tree.dao.UserMapper">
     <insert id="saveNewUser">
-        insert into user (openid,family_id,tree_id,exp) values (#{openid},#{familyId},#{treeId},#{exp});
+        insert into user (openid,family_id,tree_id,exp,nickname,icon_url) values (#{openid},#{familyId},#{treeId},#{exp},#{nickname},#{iconUrl});
+    </insert>
+
+    <insert id="saveNewFamily">
+        insert into family
+                    (family_id,tree_id,family_exp,family_member)
+            values
+                   (#{familyId},#{treeId},#{familyExp},#{familyMember});
+    </insert>
+
+    <insert id="saveNewTree">
+        insert into family
+            (tree_id,tree_exp,tree_member)
+        values
+            (#{treeId},#{treeExp},#{treeMember});
     </insert>
 
     <select id="getUserInfo" resultType="com.dingdian.family.tree.pojo.po.User" parameterType="java.lang.String">
@@ -22,8 +36,45 @@
     <select id="getPaper" resultType="com.dingdian.family.tree.pojo.po.Paper" parameterType="java.lang.String">
         select
             content
+            id as paperId
+            family_id
         from user where tree_id =  #{tree_id};
     </select>
+
+    <insert id="saveComment">
+        insert into comment (authorOpenid,paper_id,content) values (#{authorOpenid},#{paperId},#{content});
+    </insert>
+
+    <select id="getComment" resultType="com.dingdian.family.tree.pojo.po.Comment" parameterType="java.lang.String">
+        select
+            content
+        from user where tree_id =  #{tree_id};
+    </select>
+
+    <select id="getFamily" resultType="com.dingdian.family.tree.pojo.po.Family" parameterType="java.lang.String">
+        select
+            family_id,tree_id,family_exp,family_member
+        from family where family_id =  #{family_id};
+    </select>
+
+    <select id="getTree" resultType="com.dingdian.family.tree.pojo.po.Tree" parameterType="java.lang.String">
+        select
+            tree_id,tree_exp,tree_member
+        from tree where tree_id =  #{tree_id};
+    </select>
+
+    <update id="updateFamily">
+        update family set
+            family_exp = #{family_exp}
+        where family_id = #{family_id}
+    </update>
+
+    <update id="updateTree">
+        update tree set
+            tree_exp = #{tree_exp}
+        where tree_id = #{tree_id}
+    </update>
+
 
     <!--    <update id="saveMaxReply">-->
     <!--        update summary.dis_forum_mycount set subject_replies = #{subject}, replies = #{replies} where authorid = #{authorid}-->
