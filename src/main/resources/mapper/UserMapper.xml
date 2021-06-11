@@ -73,22 +73,32 @@
     <update id="updateUser">
         update user set
             exp = #{exp}
-        where openid = #{openid}
+        where openid = #{openid};
     </update>
 
     <update id="updateFamily">
         update family set
             family_exp = #{familyExp}
-        where family_id = #{familyId}
+        where family_id = #{familyId};
     </update>
 
     <update id="updateTree">
         update tree set
             tree_exp = #{treeExp}
-        where tree_id = #{treeId}
+        where tree_id = #{treeId};
     </update>
 
+    <select id="getAllUser" resultType="com.dingdian.family.tree.pojo.po.User" parameterType="java.lang.String">
+        select
+            *
+        from user where tree_id = #{tree_id};
+    </select>
 
+    <select id="getAllFamily" resultType="com.dingdian.family.tree.pojo.po.Family" parameterType="java.lang.String">
+        select
+            family_id,tree_id,family_exp,family_member
+        from family where tree_id = #{tree_id};
+    </select>
     <!--    <update id="saveMaxReply">-->
     <!--        update summary.dis_forum_mycount set subject_replies = #{subject}, replies = #{replies} where authorid = #{authorid}-->
     <!--    </update>-->

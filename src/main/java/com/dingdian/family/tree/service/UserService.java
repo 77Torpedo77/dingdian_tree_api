@@ -10,4 +10,6 @@ public interface UserService {
     ReturnData saveComment(String author_openid,String paper_id,String content);
     ReturnData getComment(String paper_id);
     ReturnData updateAllExp(Integer add_exp, String openid);
+    ReturnData getAllUser(String tree_id);
+    ReturnData getAllFamily(String tree_id);
 }

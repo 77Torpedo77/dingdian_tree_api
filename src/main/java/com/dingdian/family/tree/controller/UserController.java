@@ -70,4 +70,18 @@ public class UserController {
     {
         return UserService.updateAllExp(add_exp,openid);
     }
+
+    @ResponseBody
+    @PostMapping("/getAllUser")
+    public ReturnData getAllUser(String tree_id)
+    {
+        return UserService.getAllUser(tree_id);
+    }
+
+    @ResponseBody
+    @PostMapping("/getAllFamily")
+    public ReturnData getAllFamily(String tree_id)
+    {
+        return UserService.getAllFamily(tree_id);
+    }
 }

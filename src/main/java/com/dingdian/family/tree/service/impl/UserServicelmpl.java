@@ -100,7 +100,7 @@ public class UserServicelmpl implements UserService {
             return ReturnData.fail(40000,"某一参数为空");
         }
         User user = UserMapper.getUserInfo(openid);
-        if (user.getFamilyId() != null)
+        if (user != null)
         {
             return ReturnData.success(user);
         }
@@ -134,7 +134,7 @@ public class UserServicelmpl implements UserService {
         List<Paper> papers;
         papers = UserMapper.getPaper(tree_id);
         //需要判断列表非空，未完成##########################################################
-        if (papers.get(0).getFamilyId() != null)
+        if (papers.get(0) != null)
         {
             return ReturnData.success(papers);
         }
@@ -168,7 +168,7 @@ public class UserServicelmpl implements UserService {
         List<Comment> comments;
         comments = UserMapper.getComment(paper_id);
         //需要判断列表非空，未完成##########################################################
-        if (comments.get(0).getContent() != null)
+        if (comments.get(0) != null)
         {
             return ReturnData.success(comments);
         }
@@ -180,6 +180,10 @@ public class UserServicelmpl implements UserService {
 
     public ReturnData updateAllExp(Integer add_exp, String openid)
     {
+        if (add_exp == null || openid == null)
+        {
+            return ReturnData.fail(40000,"某一参数为空");
+        }
         User user = UserMapper.getUserInfo(openid);
         String family_id = user.getFamilyId();
         String tree_id = user.getTreeId();
@@ -204,6 +208,34 @@ public class UserServicelmpl implements UserService {
         UserMapper.updateTree(tree);
 
         return ReturnData.success("经验更新成功");
+    }
+
+    public ReturnData getAllUser(String tree_id)
+    {
+        if (tree_id == null)
+        {
+            return ReturnData.fail(40000,"某一参数为空");
+        }
+        List<User> users = UserMapper.getAllUser(tree_id);
+        if (users.get(0) == null)
+        {
+            return ReturnData.fail(40402,"没有此家族");
+        }
+        return ReturnData.success(users);
+    }
+
+    public ReturnData getAllFamily(String tree_id)
+    {
+        if (tree_id == null)
+        {
+            return ReturnData.fail(40000,"某一参数为空");
+        }
+        List<Family> families = UserMapper.getAllFamily(tree_id);
+        if (families.get(0) == null)
+        {
+            return ReturnData.fail(40402,"没有此家族");
+        }
+        return ReturnData.success(families);
     }
 
 

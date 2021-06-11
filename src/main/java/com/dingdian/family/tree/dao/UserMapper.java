@@ -22,4 +22,6 @@ public interface UserMapper {
     void updateUser(User user);
     void updateFamily(Family family);
     void updateTree(Tree tree);
+    List<User> getAllUser(String tree_id);
+    List<Family> getAllFamily(String tree_id);
 }
